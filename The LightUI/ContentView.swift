@@ -8,16 +8,41 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var isLightOn = true
+    @State var colorSwitch = 0
+    @StateObject var torchState = TorchState()
     
     var body: some View {
         ZStack {
-            isLightOn ? Color.white : Color.black
+            switch colorSwitch {
+            case 0:
+                Color.red
+            case 1:
+                Color.yellow
+            case 2:
+                Color.green
+            default:
+                Color.black
+            }
+            
+            HStack() {
+                Toggle(isOn: $torchState.isOn) {
+                    Text("Torch")
+                }
+            }
+            
+            
+            
         }
         .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
         .onTapGesture {
-            isLightOn.toggle()
+            colorSwitch = colorSwitch + 1 > 2 ? 0 : colorSwitch + 1
         }
+        .statusBar(hidden: true)
+        
+        
+        //Toggle(isOn: $torchState.isOn) {
+        //    Text("Torch")
+        //}
     }
 }
 
